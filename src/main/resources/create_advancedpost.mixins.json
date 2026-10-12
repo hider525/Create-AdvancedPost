@@ -12,7 +12,8 @@
     "FrogportForwardingMixin",
     "FrogportFallbackMixin",
     "ChainConveyorFallbackPortMixin",
-    "FrogportChainConveyorTargetMixin"
+    "FrogportChainConveyorTargetMixin",
+    "TrainParcelRoutingMixin"
   ],
   "injectors": {
     "defaultRequire": 1
