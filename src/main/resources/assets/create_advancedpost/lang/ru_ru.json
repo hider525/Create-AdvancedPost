@@ -1,0 +1,15 @@
+{
+  "item.create_advancedpost.waybill": "ТТН: %s",
+  "screen.create_advancedpost.delivery.title": "Create: AdvancedPost — доставка",
+  "screen.create_advancedpost.delivery.address": "Адрес доставки",
+  "screen.create_advancedpost.delivery.prompt": "Введите адрес доставки:",
+  "screen.create_advancedpost.delivery.send": "Отправить",
+  "screen.create_advancedpost.delivery.cancel": "Отмена",
+  "screen.create_advancedpost.delivery.address_required": "Введите адрес доставки.",
+  "chat.create_advancedpost.delivery.address_required": "Введите адрес доставки.",
+  "chat.create_advancedpost.station.operator_assigned": "%s назначен оператором отделения.",
+  "chat.create_advancedpost.parcel.not_found": "Посылка %s не найдена в отделении.",
+  "chat.create_advancedpost.parcel.inventory_full": "Освободите место в инвентаре, чтобы получить посылку.",
+  "chat.create_advancedpost.parcel.delivery_failed": "Не удалось выдать посылку. ТТН сохранён.",
+  "chat.create_advancedpost.parcel.received": "Посылка %s получена."
+}

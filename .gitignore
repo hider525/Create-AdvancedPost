@@ -1,0 +1,10 @@
+build/
+mr.md
+.gradle/
+run/
+*.class
+*.log
+.idea/
+*.iml
+.vscode/
+.bin/
