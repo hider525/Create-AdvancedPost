@@ -39,7 +39,7 @@ On Linux or macOS:
 ./gradlew build
 ```
 
-The distributable JAR is created in `build/libs/` as `Create-AdvancedPost-1.1.0.jar`.
+The distributable JAR is created in `build/libs/` as `Create-AdvancedPost-1.1.1.jar`.
 
 ## Usage
 
@@ -72,7 +72,7 @@ Minecraft 1.21.1, NeoForge 21.1.259 (или совместимая версия 
 .\gradlew.bat build
 ```
 
-Готовый файл появится в `build/libs/` под именем `Create-AdvancedPost-1.1.0.jar`.
+Готовый файл появится в `build/libs/` под именем `Create-AdvancedPost-1.1.1.jar`.
 
 ### Использование
 
@@ -105,7 +105,7 @@ Minecraft 1.21.1, NeoForge 21.1.259 (або сумісна версія гілк
 .\gradlew.bat build
 ```
 
-Готовий файл з'явиться в `build/libs/` під назвою `Create-AdvancedPost-1.1.0.jar`.
+Готовий файл з'явиться в `build/libs/` під назвою `Create-AdvancedPost-1.1.1.jar`.
 
 ### Використання
 
