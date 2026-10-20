@@ -69,11 +69,7 @@ public abstract class PackagerBlockEntityMixin {
             return box;
         }
 
-        String code = ru.createadvancedpost.TtnData.issue(
-                serverLevel,
-                packager.signBasedAddress,
-                packager.getBlockPos()
-        );
+        String code = ru.createadvancedpost.TtnData.issue(serverLevel);
         Component label = Component.translatable("item.create_advancedpost.waybill", code)
                 .withStyle(net.minecraft.ChatFormatting.GOLD);
         box.set(DataComponents.CUSTOM_NAME, label);

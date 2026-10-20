@@ -11,11 +11,5 @@
   "chat.create_advancedpost.parcel.not_found": "Посилку %s не знайдено у відділенні.",
   "chat.create_advancedpost.parcel.inventory_full": "Звільніть місце в інвентарі, щоб отримати посилку.",
   "chat.create_advancedpost.parcel.delivery_failed": "Не вдалося видати посилку. ТТН збережено.",
-  "chat.create_advancedpost.parcel.received": "Посилку %s отримано.",
-  "chat.create_advancedpost.tracking.title": "Відстеження посилки — ТТН %s",
-  "chat.create_advancedpost.tracking.created": "Створено для адреси «%s»: %s, вимір %s (%s).",
-  "chat.create_advancedpost.tracking.pending": "Статус: ще не отримана.",
-  "chat.create_advancedpost.tracking.received": "Отримав гравець %s: %s, вимір %s (%s).",
-  "chat.create_advancedpost.tracking.not_found": "Історію ТТН %s не знайдено.",
-  "chat.create_advancedpost.tracking.day_time": "День %s, %s"
+  "chat.create_advancedpost.parcel.received": "Посилку %s отримано."
 }

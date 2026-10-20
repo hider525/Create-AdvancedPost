@@ -11,11 +11,5 @@
   "chat.create_advancedpost.parcel.not_found": "Parcel %s was not found at this station.",
   "chat.create_advancedpost.parcel.inventory_full": "Make room in your inventory to receive the parcel.",
   "chat.create_advancedpost.parcel.delivery_failed": "Could not deliver the parcel. Your waybill was kept.",
-  "chat.create_advancedpost.parcel.received": "Parcel %s received.",
-  "chat.create_advancedpost.tracking.title": "Parcel tracking - waybill %s",
-  "chat.create_advancedpost.tracking.created": "Created for %s: %s at %s (%s).",
-  "chat.create_advancedpost.tracking.pending": "Status: not received yet.",
-  "chat.create_advancedpost.tracking.received": "Received by %s: %s at %s (%s).",
-  "chat.create_advancedpost.tracking.not_found": "No tracking history found for waybill %s.",
-  "chat.create_advancedpost.tracking.day_time": "Day %s, %s"
+  "chat.create_advancedpost.parcel.received": "Parcel %s received."
 }
