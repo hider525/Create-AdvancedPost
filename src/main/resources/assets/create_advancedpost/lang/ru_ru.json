@@ -11,5 +11,11 @@
   "chat.create_advancedpost.parcel.not_found": "Посылка %s не найдена в отделении.",
   "chat.create_advancedpost.parcel.inventory_full": "Освободите место в инвентаре, чтобы получить посылку.",
   "chat.create_advancedpost.parcel.delivery_failed": "Не удалось выдать посылку. ТТН сохранён.",
-  "chat.create_advancedpost.parcel.received": "Посылка %s получена."
+  "chat.create_advancedpost.parcel.received": "Посылка %s получена.",
+  "chat.create_advancedpost.tracking.title": "Отслеживание посылки — ТТН %s",
+  "chat.create_advancedpost.tracking.created": "Создана для адреса «%s»: %s, измерение %s (%s).",
+  "chat.create_advancedpost.tracking.pending": "Статус: ещё не получена.",
+  "chat.create_advancedpost.tracking.received": "Получена игроком %s: %s, измерение %s (%s).",
+  "chat.create_advancedpost.tracking.not_found": "История ТТН %s не найдена.",
+  "chat.create_advancedpost.tracking.day_time": "День %s, %s"
 }

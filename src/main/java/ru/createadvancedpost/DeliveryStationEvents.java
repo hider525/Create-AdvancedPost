@@ -149,6 +149,7 @@ public final class DeliveryStationEvents {
             return;
         }
 
+        TtnData.markReceived(level, waybill, player.getGameProfile().getName(), seat.blockPosition());
         ticket.shrink(1);
         player.displayClientMessage(
                 ticketMessage(

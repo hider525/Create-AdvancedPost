@@ -11,5 +11,6 @@ public final class CreateAdvancedPost {
     public CreateAdvancedPost(IEventBus modBus) {
         modBus.addListener(NetworkHandler::registerPayloads);
         NeoForge.EVENT_BUS.register(DeliveryStationEvents.class);
+        NeoForge.EVENT_BUS.register(ParcelTrackingEvents.class);
     }
 }
