@@ -6,6 +6,7 @@ import java.util.TreeSet;
 import java.util.UUID;
 import java.util.WeakHashMap;
 
+import com.mojang.authlib.GameProfile;
 import com.simibubi.create.content.equipment.clipboard.ClipboardBlock;
 import com.simibubi.create.content.equipment.clipboard.ClipboardBlockEntity;
 import com.simibubi.create.content.equipment.clipboard.ClipboardEntry;
@@ -30,8 +31,11 @@ public final class PendingAddressSelections {
         PENDING.put(packager, player.getUUID());
         PacketDistributor.sendToPlayer(
                 player,
-                new OpenDeliveryScreenPayload(packager.getBlockPos(), findClipboardAddresses(
-                        (ServerLevel) packager.getLevel(), packager.getBlockPos()))
+                new OpenDeliveryScreenPayload(
+                        packager.getBlockPos(),
+                        findClipboardAddresses((ServerLevel) packager.getLevel(), packager.getBlockPos()),
+                        findRecipients(player)
+                )
         );
     }
 
@@ -55,11 +59,11 @@ public final class PendingAddressSelections {
         return false;
     }
 
-    public static void submit(ServerPlayer player, BlockPos pos, String submittedAddress) {
+    public static boolean submit(ServerPlayer player, BlockPos pos, String submittedAddress, String submittedRecipient) {
         ServerLevel level = player.serverLevel();
         PackagerBlockEntity packager = getPendingPackager(player, pos, level);
         if (packager == null) {
-            return;
+            return false;
         }
 
         String address = submittedAddress.trim();
@@ -70,17 +74,47 @@ public final class PendingAddressSelections {
                     ),
                     true
             );
-            return;
+            return false;
+        }
+
+        UUID recipientId = null;
+        String recipient = submittedRecipient.trim();
+        if (!recipient.isEmpty()) {
+            if (!recipient.matches("[A-Za-z0-9_]{1,16}")) {
+                player.displayClientMessage(
+                        net.minecraft.network.chat.Component.translatable(
+                                "chat.create_advancedpost.delivery.recipient_invalid"
+                        ),
+                        true
+                );
+                return false;
+            }
+
+            ServerPlayer onlineRecipient = level.getServer().getPlayerList().getPlayerByName(recipient);
+            GameProfile profile = onlineRecipient != null
+                    ? onlineRecipient.getGameProfile()
+                    : level.getServer().getProfileCache().get(recipient).orElse(null);
+            if (profile == null) {
+                player.displayClientMessage(
+                        net.minecraft.network.chat.Component.translatable(
+                                "chat.create_advancedpost.delivery.recipient_not_found"
+                        ),
+                        true
+                );
+                return false;
+            }
+            recipientId = profile.getId();
         }
 
         PENDING.remove(packager);
-        DeliverySenders.set(packager, player);
+        DeliverySenders.set(packager, player.getUUID(), recipientId);
         try {
             packager.signBasedAddress = address;
             packager.attemptToSend(null);
             if (packager.buttonCooldown <= 0) {
                 packager.buttonCooldown = 40;
             }
+            return true;
         } finally {
             DeliverySenders.clear(packager);
         }
@@ -134,6 +168,16 @@ public final class PendingAddressSelections {
             }
         }
         return List.copyOf(addresses);
+    }
+
+    private static List<String> findRecipients(ServerPlayer sender) {
+        TreeSet<String> recipients = new TreeSet<>(String.CASE_INSENSITIVE_ORDER.thenComparing(String::compareTo));
+        for (ServerPlayer player : sender.serverLevel().getServer().getPlayerList().getPlayers()) {
+            if (!player.getUUID().equals(sender.getUUID())) {
+                recipients.add(player.getGameProfile().getName());
+            }
+        }
+        return List.copyOf(recipients);
     }
 
     private static Direction getSupportDirection(net.minecraft.world.level.block.state.BlockState state) {

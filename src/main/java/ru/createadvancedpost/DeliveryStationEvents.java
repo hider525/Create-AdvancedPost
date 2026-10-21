@@ -24,6 +24,7 @@ import net.minecraft.world.level.Level;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
@@ -36,6 +37,13 @@ public final class DeliveryStationEvents {
     private static final Pattern WAYBILL_NAME = Pattern.compile("^(?:ТТН|Waybill): ([0-9]{6})$");
 
     private DeliveryStationEvents() {
+    }
+
+    @SubscribeEvent
+    public static void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
+        if (event.getEntity() instanceof ServerPlayer player) {
+            TtnData.deliverPending(player);
+        }
     }
 
     @SubscribeEvent

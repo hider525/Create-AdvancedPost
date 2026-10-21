@@ -3,6 +3,7 @@ package ru.createadvancedpost.client;
 import java.util.List;
 import java.util.Locale;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.components.Button;
@@ -12,21 +13,21 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.neoforged.neoforge.network.PacketDistributor;
 import ru.createadvancedpost.network.CancelDeliveryPayload;
-import ru.createadvancedpost.network.SubmitDeliveryPayload;
 
 public final class DeliveryAddressScreen extends Screen {
     private static final int MAX_SUGGESTIONS = 5;
 
     private final BlockPos packagerPos;
     private final List<String> addresses;
+    private final List<String> recipients;
     private EditBox addressInput;
-    private boolean submitted;
     private boolean addressRequired;
 
-    public DeliveryAddressScreen(BlockPos packagerPos, List<String> addresses) {
+    public DeliveryAddressScreen(BlockPos packagerPos, List<String> addresses, List<String> recipients) {
         super(Component.translatable("screen.create_advancedpost.delivery.title"));
         this.packagerPos = packagerPos;
         this.addresses = List.copyOf(addresses);
+        this.recipients = List.copyOf(recipients);
     }
 
     @Override
@@ -47,16 +48,16 @@ public final class DeliveryAddressScreen extends Screen {
         setInitialFocus(addressInput);
 
         addRenderableWidget(Button.builder(
-                        Component.translatable("screen.create_advancedpost.delivery.send"),
-                        button -> submit()
+                        Component.translatable("screen.create_advancedpost.delivery.next"),
+                        button -> next()
                 )
-                .bounds(centerX - 105, centerY + 94, 100, 20)
+                .bounds(centerX - 105, centerY + 106, 100, 20)
                 .build());
         addRenderableWidget(Button.builder(
                         Component.translatable("screen.create_advancedpost.delivery.cancel"),
                         button -> onClose()
                 )
-                .bounds(centerX + 5, centerY + 94, 100, 20)
+                .bounds(centerX + 5, centerY + 106, 100, 20)
                 .build());
     }
 
@@ -123,7 +124,7 @@ public final class DeliveryAddressScreen extends Screen {
             List<String> suggestions = getSuggestions();
             int left = width / 2 - 120;
             int top = height / 2 + 7;
-            if (mouseX >= left && mouseX < left + 240) {
+            if (mouseX >= left && mouseX < left + 240 && mouseY >= top) {
                 int row = (int) (mouseY - top) / 18;
                 if (mouseY >= top && row >= 0 && row < suggestions.size()) {
                     addressInput.setValue(suggestions.get(row));
@@ -141,29 +142,25 @@ public final class DeliveryAddressScreen extends Screen {
             return true;
         }
         if (keyCode == 257 || keyCode == 335) {
-            submit();
+            next();
             return true;
         }
         return super.keyPressed(keyCode, scanCode, modifiers);
     }
 
-    private void submit() {
+    private void next() {
         String address = addressInput.getValue().trim();
         if (address.isEmpty()) {
             addressRequired = true;
             return;
         }
         addressRequired = false;
-        submitted = true;
-        PacketDistributor.sendToServer(new SubmitDeliveryPayload(packagerPos, address));
-        onClose();
+        Minecraft.getInstance().setScreen(new RecipientSelectionScreen(packagerPos, address, recipients));
     }
 
     @Override
     public void onClose() {
-        if (!submitted) {
-            PacketDistributor.sendToServer(new CancelDeliveryPayload(packagerPos));
-        }
+        PacketDistributor.sendToServer(new CancelDeliveryPayload(packagerPos));
         super.onClose();
     }
 

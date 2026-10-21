@@ -1,7 +1,5 @@
 package ru.createadvancedpost.mixin;
 
-import java.util.UUID;
-
 import com.simibubi.create.content.logistics.packager.PackagerBlockEntity;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
@@ -74,17 +72,33 @@ public abstract class PackagerBlockEntityMixin {
                 .withStyle(net.minecraft.ChatFormatting.GOLD);
         box.set(DataComponents.CUSTOM_NAME, label);
 
-        UUID senderId = ru.createadvancedpost.DeliverySenders.get(packager);
-        if (senderId != null) {
-            ServerPlayer sender = serverLevel.getServer().getPlayerList().getPlayer(senderId);
+        ru.createadvancedpost.DeliverySenders.Delivery delivery =
+                ru.createadvancedpost.DeliverySenders.get(packager);
+        if (delivery != null) {
+            ServerPlayer sender = serverLevel.getServer().getPlayerList().getPlayer(delivery.senderId());
             if (sender != null) {
-                ItemStack paper = new ItemStack(Items.PAPER);
-                paper.set(DataComponents.CUSTOM_NAME, label);
-                sender.getInventory().placeItemBackInInventory(paper);
+                sender.getInventory().placeItemBackInInventory(createPost$createWaybill(code));
+            }
+            if (delivery.recipientId() != null) {
+                ru.createadvancedpost.TtnData.deliverOrQueue(
+                        serverLevel,
+                        delivery.recipientId(),
+                        code
+                );
             }
             ru.createadvancedpost.DeliverySenders.clear(packager);
         }
 
         return box;
+    }
+
+    private ItemStack createPost$createWaybill(String code) {
+        ItemStack paper = new ItemStack(Items.PAPER);
+        paper.set(
+                DataComponents.CUSTOM_NAME,
+                Component.translatable("item.create_advancedpost.waybill", code)
+                        .withStyle(net.minecraft.ChatFormatting.GOLD)
+        );
+        return paper;
     }
 }

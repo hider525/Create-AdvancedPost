@@ -6,6 +6,7 @@ import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import ru.createadvancedpost.network.CancelDeliveryPayload;
+import ru.createadvancedpost.network.DeliverySubmissionResultPayload;
 import ru.createadvancedpost.network.OpenDeliveryScreenPayload;
 import ru.createadvancedpost.network.SubmitDeliveryPayload;
 
@@ -25,6 +26,15 @@ public final class NetworkHandler {
                     }
                 }
         );
+        registrar.playToClient(
+                DeliverySubmissionResultPayload.TYPE,
+                DeliverySubmissionResultPayload.STREAM_CODEC,
+                (payload, context) -> {
+                    if (FMLEnvironment.dist == Dist.CLIENT) {
+                        ru.createadvancedpost.client.ClientPayloadHandler.deliverySubmissionResult(payload);
+                    }
+                }
+        );
         registrar.playToServer(
                 SubmitDeliveryPayload.TYPE,
                 SubmitDeliveryPayload.STREAM_CODEC,
@@ -39,7 +49,16 @@ public final class NetworkHandler {
 
     private static void submitDelivery(SubmitDeliveryPayload payload, IPayloadContext context) {
         if (context.player() instanceof ServerPlayer player) {
-            PendingAddressSelections.submit(player, payload.packagerPos(), payload.address());
+            boolean accepted = PendingAddressSelections.submit(
+                player,
+                payload.packagerPos(),
+                payload.address(),
+                payload.recipient()
+            );
+            net.neoforged.neoforge.network.PacketDistributor.sendToPlayer(
+                    player,
+                    new DeliverySubmissionResultPayload(accepted)
+            );
         }
     }
 
