@@ -164,9 +164,13 @@ public abstract class FrogportForwardingMixin {
         if (below instanceof PostboxBlockEntity postbox) {
             return postbox.inventory;
         }
+        IItemHandler adjacentInventory = getAdjacentInventory(Direction.DOWN);
+        if (adjacentInventory != null) {
+            return adjacentInventory;
+        }
         if (below instanceof Container container && container.getContainerSize() > 0) {
             return new InvWrapper(container);
         }
-        return getAdjacentInventory(Direction.DOWN);
+        return null;
     }
 }

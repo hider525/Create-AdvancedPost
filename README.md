@@ -2,7 +2,7 @@
 
 Create: AdvancedPost adds postal workflows to Create: choose a delivery address, label packages with unique waybills, route parcels through train networks, and retrieve them from staffed parcel stations.
 
-**Current version: 1.1.2**
+**Current version: 1.1.3**
 
 Minecraft **1.21.1** · NeoForge **21.1.259** · Create **6.0.10**
 
@@ -19,7 +19,7 @@ Minecraft **1.21.1** · NeoForge **21.1.259** · Create **6.0.10**
 - **Train parcel sorting:** attach a Create Clipboard to non-depot train storage and list accepted addresses on unchecked lines. Filtered storage accepts matching packages; storage without a Clipboard is the fallback for unmatched packages. If no fallback storage exists, the package remains at the station.
 - **Mob-operated parcel stations:** seat a mob on a Create seat with inventory-bearing storage within four blocks. Use a matching waybill on the mob to retrieve the package from nearby storage.
 - **Special Frogport filters:**
-  - `*+` forwards packages from the Frogport buffer and storage below to its configured target. It does not receive packages from the chain conveyor.
+  - `*+` forwards packages from the Frogport buffer and supported storage below (including Create storage) to its configured target. It does not receive packages from the chain conveyor.
   - `*-` receives packages for which the chain-conveyor network has no other matching destination. It unloads its buffer into storage below as space becomes available.
 - **Localized interface and messages:** English, Russian, and Ukrainian, following the Minecraft language setting.
 
@@ -55,7 +55,7 @@ On Linux or macOS:
 ./gradlew build
 ```
 
-The distributable JAR is created in `build/libs/` as `Create-AdvancedPost-1.1.2.jar`.
+The distributable JAR is created in `build/libs/` as `Create-AdvancedPost-1.1.3.jar`.
 
 ## Русский
 
@@ -71,7 +71,7 @@ Create: AdvancedPost добавляет в логистику Create почто�
 - **Большие посылки:** до 27 разных типов предметов вместо стандартных для Create 9.
 - **Сортировка в поездах:** прикрепите планшет к хранилищу поезда (кроме депо) и внесите принимаемые адреса в незачёркнутые строки. Хранилище без планшета служит резервным для посылок, не подошедших под фильтры; без него посылка остаётся на станции.
 - **Отделения с мобом-оператором:** посадите моба на сиденье Create, если в пределах четырёх блоков есть хранилище с инвентарём. Используйте бумагу с совпадающей ТТН на мобе, чтобы забрать посылку.
-- **Особые фильтры квакопортов:** `*+` пересылает посылки из буфера и нижнего хранилища на настроенную цель, а `*-` принимает посылки без другого подходящего адреса в сети цепных конвейеров и выгружает их в нижнее хранилище.
+- **Особые фильтры квакопортов:** `*+` пересылает посылки из буфера и доступных хранилищ под квакопортом, включая хранилища Create, на настроенную цель, а `*-` принимает посылки без другого подходящего адреса в сети цепных конвейеров и выгружает их в нижнее хранилище.
 - **Языки:** английский, русский и украинский; язык интерфейса определяется настройкой Minecraft.
 
 ### Требования и использование
@@ -99,7 +99,7 @@ Create: AdvancedPost додає до логістики Create поштові а
 - **Більші посилки:** до 27 різних типів предметів замість стандартних для Create 9.
 - **Сортування в поїздах:** прикріпіть планшет до сховища поїзда (крім депо) і внесіть адреси в незакреслені рядки. Сховище без планшета є резервним для посилок, що не відповідають фільтрам; без нього посилка залишається на станції.
 - **Відділення з мобом-оператором:** посадіть моба на сидіння Create, якщо в межах чотирьох блоків є сховище з інвентарем. Використайте папір із відповідною ТТН на мобі, щоб забрати посилку.
-- **Спеціальні фільтри квакопортів:** `*+` пересилає посилки з буфера та нижнього сховища до налаштованої цілі, а `*-` приймає посилки без іншої відповідної адреси в мережі ланцюгових конвеєрів і вивантажує їх у нижнє сховище.
+- **Спеціальні фільтри квакопортів:** `*+` пересилає посилки з буфера та доступних сховищ під квакопортом, зокрема сховищ Create, до налаштованої цілі, а `*-` приймає посилки без іншої відповідної адреси в мережі ланцюгових конвеєрів і вивантажує їх у нижнє сховище.
 - **Мови:** англійська, російська та українська; мова інтерфейсу відповідає налаштуванню Minecraft.
 
 ### Вимоги та використання
